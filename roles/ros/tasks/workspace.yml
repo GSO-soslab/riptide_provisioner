@@ -1,0 +1,14 @@
+---
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/ros_ws/src"
+    state: directory
+    mode: '0755'
+
+- name: Create workspace
+  ansible.builtin.shell:
+  args:
+    cmd: "source /opt/ros/{{ ros_versions[ansible_lsb.codename] }}/setup.bash ; catkin_make"
+    chdir: "{{ ansible_env.HOME }}/ros_ws"
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/ros_ws/devel/setup.bash"

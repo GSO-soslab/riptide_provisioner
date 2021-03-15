@@ -1,0 +1,52 @@
+---
+- name: set up ros keys
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 'C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
+  become: yes
+
+- name: accept software from packages.ros.org
+  apt_repository:
+    repo: 'deb http://packages.ros.org/ros/ubuntu {{ ansible_lsb.codename }} main'
+    filename: 'ros-latest'
+    update_cache: yes
+  become: yes
+
+- name: install dependencies for building software
+  apt:
+    name:
+    - python-rosdep
+    - python-rosinstall
+    - python-rosinstall-generator
+    - python-wstool
+    - build-essential
+    - "ros-{{ ros_versions[ansible_lsb.codename] }}-ros-base"
+  become: yes
+
+- name: install ros packages
+  apt:
+    name: "{{ ros_packages | map('regex_replace', '(^.*$)', 'ros-' + ros_versions[ansible_lsb.codename] + '-\\1') | list }}"
+  when: ros_packages is defined
+  become: yes
+
+- name: add sourcing ros in bashrc
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    line: "source /opt/ros/{{ ros_versions[ansible_lsb.codename] }}/setup.bash"
+    state: present
+
+- name: Initialize package repository
+  ansible.builtin.shell: |
+    source /opt/ros/{{ ros_versions[ansible_lsb.codename] }}/setup.bash
+    rosdep init
+  args:
+    creates: /etc/ros/rosdep/sources.list.d/20-default.list
+    executable: /bin/bash
+  become: yes
+
+- name: Update package repository
+  ansible.builtin.shell: |
+    source /opt/ros/{{ ros_versions[ansible_lsb.codename] }}/setup.bash
+    rosdep update
+  args:
+    executable: /bin/bash

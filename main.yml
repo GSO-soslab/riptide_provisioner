@@ -1,0 +1,24 @@
+---
+- hosts: all
+  gather_facts: yes
+
+  vars:
+    ros_versions:
+      trusty: indigo
+      xenial: kinetic
+      bionic: melodic
+
+  roles:
+    - role: soslab
+
+    - role: moos
+
+    - role: ros
+      ros_packages:
+      - rviz
+
+    - role: sonar
+
+    - role: ppp
+
+    - role: chrony

@@ -1,0 +1,6 @@
+---
+- name: Create SOSLAB workspace
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/soslab_ws/src"
+    state: directory
+    mode: '0755'

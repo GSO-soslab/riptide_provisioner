@@ -1,0 +1,9 @@
+---
+# https://www.raspberrypi.org/forums/viewtopic.php?t=149927
+- name: Install PPP packages
+  apt:
+    name:
+    - dnsmasq
+    - ppp
+    - hostapd
+  become: yes

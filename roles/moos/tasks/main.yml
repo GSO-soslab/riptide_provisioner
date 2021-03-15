@@ -1,0 +1,6 @@
+---
+- name: Fetch MOOS-IvP
+  ansible.builtin.subversion:
+    repo: https://oceanai.mit.edu/svn/moos-ivp-aro/releases/moos-ivp-19.8.2
+    dest: /opt/moos-ivp
+  become: yes

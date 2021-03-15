@@ -1,0 +1,4 @@
+---
+- include_tasks: ros.yml
+
+- include_tasks: vendor.yml

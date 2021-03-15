@@ -1,0 +1,28 @@
+---
+- name: Checkout The Code From Github Using Ansible.
+  ansible.builtin.git:
+    repo: 'https://{{ github_token }}@github.com/GSO-soslab/bathy_sonar_vendor.git'
+    dest: "{{ ansible_env.HOME }}/soslab_ws/src/bathy_sonar_vendor"
+
+- name: Install qt5 requirements for sonar
+  apt:
+    name:
+      - qt5-default
+      - libqt5serialport5-dev
+  become: yes
+
+- name: Build sonar vendor packages
+  ansible.builtin.shell: |
+    ./build.sh
+  args:
+    chdir: "{{ ansible_env.HOME }}/soslab_ws/src/bathy_sonar_vendor"
+    executable: /bin/bash
+
+- name: Copy binaries
+  ansible.builtin.shell: |
+    DIR=$(ls | grep swath)
+    find $DIR -type f -executable -exec mv {} /usr/local/bin/ \;
+  args:
+    chdir: "{{ ansible_env.HOME }}/soslab_ws/src/bathy_sonar_vendor"
+    executable: /bin/bash
+  become: yes
