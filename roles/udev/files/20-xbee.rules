@@ -1,0 +1,2 @@
+# Xbee carrier board
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001",GROUP="dialout", SYMLINK+="xbee"
