@@ -7,3 +7,23 @@
     - ppp
     - hostapd
   become: yes
+
+- name: Create PPP confguration file
+  ansible.builtin.template:
+    src: ppp.options.j2
+    dest: "/etc/ppp/options.{{ ppp_jetson_serial_interface }}"
+  become: yes
+
+- name: Create PPP systemd file
+  ansible.builtin.template:
+    src: ppp.service.j2
+    dest: "/etc/systemd/system/ppp.service"
+  become: yes
+
+- name: Setup systemd ppp service
+  ansible.builtin.systemd:
+    name: ppp
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  become: yes
