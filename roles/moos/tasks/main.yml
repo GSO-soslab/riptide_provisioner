@@ -4,3 +4,23 @@
     repo: https://oceanai.mit.edu/svn/moos-ivp-aro/releases/moos-ivp-19.8.2
     dest: /opt/moos-ivp
   become: yes
+
+- name: Install dependencies
+  apt:
+    name:
+    - libfltk1.3-dev
+    - freeglut3-dev
+    - libpng-dev
+    - libjpeg-dev
+    - libxft-dev
+    - libxinerama-dev
+    - libtiff5-dev
+  become: yes
+
+- name: Build moos-ivp
+  ansible.builtin.shell: |
+    ./build.sh
+  args:
+    chdir: /opt/moos-ivp
+    executable: /bin/bash
+  become: yes
