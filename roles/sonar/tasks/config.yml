@@ -1,0 +1,22 @@
+---
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/swathRT
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Copy swathRT configuration
+  ansible.builtin.template:
+    src: RTsettings.ini.j2
+    dest: /etc/swathRT/RTsettings.ini
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
+- name: Configure network
+  ansible.builtin.copy:
+    dest: /etc/netplan/51-swath-sonar.yml
+    content: "{{ network | to_nice_yaml( width=50, explicit_start=True, explicit_end=True) }}"
+  become: yes

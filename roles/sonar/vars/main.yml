@@ -1,0 +1,7 @@
+network:
+  ethernets:
+    eth0:
+      dhcp4: no
+      optional: yes
+      addresses:
+        - 10.0.0.1/24

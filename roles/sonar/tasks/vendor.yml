@@ -14,15 +14,11 @@
 - name: Build sonar vendor packages
   ansible.builtin.shell: |
     ./build.sh
-  args:
-    chdir: "{{ ansible_env.HOME }}/soslab_ws/src/bathy_sonar_vendor"
-    executable: /bin/bash
-
-- name: Copy binaries
-  ansible.builtin.shell: |
     DIR=$(ls | grep swath)
     find $DIR -type f -executable -exec mv {} /usr/local/bin/ \;
+    ./clean.sh
   args:
     chdir: "{{ ansible_env.HOME }}/soslab_ws/src/bathy_sonar_vendor"
     executable: /bin/bash
+    creates: /usr/local/bin/swathRT
   become: yes

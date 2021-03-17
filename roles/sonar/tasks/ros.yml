@@ -19,5 +19,3 @@
   args:
     executable: /bin/bash
     chdir: "{{ ansible_env.HOME }}/ros_ws"
-
-
