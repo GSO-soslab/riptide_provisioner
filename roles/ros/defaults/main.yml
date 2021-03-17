@@ -1,3 +1,4 @@
 ---
 ros_packages:
   - rviz
+  - robot-upstart
