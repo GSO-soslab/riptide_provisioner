@@ -1,0 +1,35 @@
+---
+# https://www.raspberrypi.org/forums/viewtopic.php?t=149927
+- name: Install PPP packages
+  apt:
+    name:
+    - ppp
+  become: yes
+
+- name: Create PPP confguration file for tegra
+  ansible.builtin.template:
+    src: "ppp.{{ target_type }}.options.j2"
+    dest: "/etc/ppp/options.{{ ppp_tegra_serial_interface }}"
+  when: target_type == "tegra"
+  become: yes
+
+- name: Create PPP confguration file for beagle
+  ansible.builtin.template:
+    src: "ppp.{{ target_type }}.options.j2"
+    dest: "/etc/ppp/options.{{ ppp_beagle_serial_interface }}"
+  when: target_type == "beagle"
+  become: yes
+
+- name: Create PPP systemd file
+  ansible.builtin.template:
+    src: "ppp.{{ target_type }}.service.j2"
+    dest: "/etc/systemd/system/ppp.service"
+  become: yes
+
+- name: Setup systemd ppp service
+  ansible.builtin.systemd:
+    name: ppp
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  become: yes

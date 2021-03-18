@@ -3,7 +3,7 @@ Description=PPP
 
 [Service]
 Type=idle
-ExecStart=/usr/sbin/pppd -d /dev/{{ ppp_jetson_serial_interface }} {{ ppp_baudrate }}
+ExecStart=/usr/sbin/pppd -d /dev/{{ ppp_tegra_serial_interface }} {{ ppp_baudrate }}
 Restart=always
 
 [Install]

@@ -1,5 +1,0 @@
----
-- name: Install chrony
-  apt:
-    name: chrony
-  become: yes

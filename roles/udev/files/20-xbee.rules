@@ -1,2 +1,3 @@
 # Xbee carrier board
+# todo: fix vendor and product id
 SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001",GROUP="dialout", SYMLINK+="xbee"

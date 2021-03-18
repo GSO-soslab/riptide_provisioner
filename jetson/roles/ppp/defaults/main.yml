@@ -1,9 +1,0 @@
----
-ppp_jetson_ip_address: 192.168.5.100
-ppp_riptide_ip_address: 192.168.5.101
-# Orbitty carrier
-# UART0 TX - Pin: 3, UART0 RX - Pin: 4.
-# Voltage level 3v3
-# linux serial file: /dev/ttyS0
-ppp_jetson_serial_interface: ttyS0
-ppp_baudrate: 115200

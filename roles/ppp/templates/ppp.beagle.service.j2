@@ -1,0 +1,11 @@
+[Unit]
+Description=PPP
+
+[Service]
+Type=idle
+ExecStart=/usr/sbin/pppd -d /dev/{{ ppp_beagle_serial_interface }} {{ ppp_baudrate }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Alias=ppp.service

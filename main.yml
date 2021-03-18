@@ -9,21 +9,32 @@
       bionic: melodic
       focal: noetic
 
+    ppp_tegra_ip_address: 192.168.5.100
+    ppp_beagle_ip_address: 192.168.5.101
+
   roles:
     - role: soslab
 
     - role: moos
+      when: target_type=="tegra"
 
     - role: ros
       ros_packages:
       - rviz
+      when: target_type=="tegra"
 
     - role: sonar
+      when: target_type=="tegra"
 
     - role: riptide_ros_bridge
+      when: target_type=="tegra"
 
     - role: vnc
+      when: target_type=="tegra"
 
     - role: ppp
+
+    - role: udev
+      when: target_type=="tegra"
 
     - role: chrony
