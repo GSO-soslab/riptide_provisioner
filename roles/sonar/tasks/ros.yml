@@ -12,6 +12,11 @@
     executable: /bin/bash
     chdir: "{{ ansible_env.HOME }}/ros_ws"
 
+- name: Install additional packages
+  apt:
+    name: libqt5serialport5-dev
+  become: yes
+
 - name: Build ros packages
   ansible.builtin.shell: |
     source /opt/ros/{{ ros_versions[ansible_lsb.codename] }}/setup.bash

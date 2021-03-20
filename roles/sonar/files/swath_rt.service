@@ -1,10 +1,9 @@
 [Unit]
-Description=Remote desktop service (VNC)
+Description=SwathRT target
 After=syslog.target network.target
 
 [Service]
-Type=forking
-User={{ ansible_user_id }}
+Type=simple
 Restart=always
 RestartSec=10
 

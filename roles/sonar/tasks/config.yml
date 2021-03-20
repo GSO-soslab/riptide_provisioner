@@ -7,8 +7,8 @@
   become: yes
 
 - name: Copy swathRT configuration
-  ansible.builtin.template:
-    src: RTsettings.ini.j2
+  ansible.builtin.copy:
+    src: RTsettings.ini
     dest: /etc/swathRT/RTsettings.ini
     owner: root
     group: root
@@ -17,6 +17,34 @@
 
 - name: Configure network
   ansible.builtin.copy:
-    dest: /etc/netplan/51-swath-sonar.yml
-    content: "{{ network | to_nice_yaml( width=50, explicit_start=True, explicit_end=True) }}"
+    src: sonar_connection
+    dest: /etc/NetworkManager/system-connections/sonar_connection
+    mode: '0600'
+  become: yes
+
+- name: Restart network NetworkManager
+  ansible.builtin.systemd:
+    name: NetworkManager
+    state: restarted
+  become: yes
+
+- name: Wait 600 seconds for target connection to become reachable/usable
+  wait_for_connection:
+
+- name: Copy systemd unit file
+  ansible.builtin.copy:
+    src: swath_rt.service
+    dest: /etc/systemd/system/swath_rt.service
+  become: yes
+
+- name: Setup systemd service
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  become: yes
+
+- name: Setup systemd service
+  ansible.builtin.systemd:
+    name: swath_rt
+    enabled: yes
+    state: started
   become: yes
