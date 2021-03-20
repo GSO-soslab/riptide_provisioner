@@ -4,3 +4,12 @@
     path: "{{ ansible_env.HOME }}/soslab_ws/src"
     state: directory
     mode: '0755'
+
+- name: Enable passwordless sudo
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+  become: yes
