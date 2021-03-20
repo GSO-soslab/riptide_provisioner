@@ -26,10 +26,14 @@
     dest: "/etc/systemd/system/ppp.service"
   become: yes
 
+- name: Reload daemon
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  become: yes
+
 - name: Setup systemd ppp service
   ansible.builtin.systemd:
     name: ppp
-    daemon_reload: yes
     enabled: yes
     state: started
   become: yes
