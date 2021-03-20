@@ -14,6 +14,13 @@
     dest: /etc/systemd/system/vncserver@.service
   become: yes
 
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.vnc"
+    state: directory
+    mode: '0755'
+
+
 - name: Copy xstartup
   ansible.builtin.copy:
     src: xstartup
@@ -23,7 +30,7 @@
 - name: Create password file
   ansible.builtin.shell: |
     set -o pipefail
-    vncpasswd -f <<< "{{ vnc_password }}" > ~/.vnc/passwd
+    vncpasswd -f <<< "{{ ansible_password }}" > ~/.vnc/passwd
     chmod 0600 ~/.vnc/passwd
   args:
     executable: /bin/bash
@@ -45,3 +52,10 @@
     enabled: yes
   become: yes
 
+- name: Install some GL libraries
+  apt:
+    name:
+      - libgl1-mesa-glx
+      - mesa-utils
+      - xrdp
+  become: yes
