@@ -1,4 +1,5 @@
 server {{ ppp_beagle_ip_address }}
+server 0.pool.ntp.org iburst
 driftfile /var/lib/chrony/drift
 logdir /var/log/chrony
 log measurements statistics tracking
@@ -6,4 +7,5 @@ keyfile /etc/chrony.keys
 commandkey 24
 local stratum 10
 initstepslew 20 {{ ppp_beagle_ip_address }}
+initstepslew 20 0.pool.ntp.org
 allow 192.168.5

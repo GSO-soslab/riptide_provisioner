@@ -1,7 +1,8 @@
 driftfile /var/lib/chrony/drift
+server 0.pool.ntp.org iburst
 commandkey 1
 keyfile /etc/chrony.keys
-initstepslew 10 0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org
+initstepslew 20 0.pool.ntp.org
 local stratum 8
 manual
 allow 192.168.5
