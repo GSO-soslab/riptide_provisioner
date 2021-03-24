@@ -1,8 +1,8 @@
 ---
 - name: Checkout The Code From Github Using Ansible.
   ansible.builtin.git:
-    repo: 'https://{{ github_token }}@github.com/GSO-soslab/bathy_sonar_vendor.git'
-    dest: "{{ ansible_env.HOME }}/soslab_ws/src/bathy_sonar_vendor"
+    repo: 'https://{{ github_token }}@github.com/iter-systems/swathRT.git'
+    dest: "{{ ansible_env.HOME }}/soslab_ws/src/swathRT"
 
 - name: Install qt5 requirements for sonar
   apt:
@@ -18,7 +18,7 @@
     find $DIR -type f -executable -exec mv {} /usr/local/bin/ \;
     ./clean.sh
   args:
-    chdir: "{{ ansible_env.HOME }}/soslab_ws/src/bathy_sonar_vendor"
+    chdir: "{{ ansible_env.HOME }}/soslab_ws/src/swathRT"
     executable: /bin/bash
     creates: /usr/local/bin/swathRT
   become: yes

@@ -22,12 +22,6 @@
     mode: '0600'
   become: yes
 
-- name: Restart network NetworkManager
-  ansible.builtin.systemd:
-    name: NetworkManager
-    state: restarted
-  become: yes
-
 - name: Wait 600 seconds for target connection to become reachable/usable
   wait_for_connection:
 

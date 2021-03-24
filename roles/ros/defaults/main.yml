@@ -1,4 +1,4 @@
 ---
 ros_packages:
-  - rviz
+  - desktop
   - robot-upstart
