@@ -18,4 +18,4 @@ ppp_beagle_serial_interface: ttyO1
 # - 230400
 # - 460800
 # - 921600
-ppp_baudrate: 115200
+ppp_baudrate: 460800

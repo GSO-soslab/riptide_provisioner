@@ -35,5 +35,5 @@
   ansible.builtin.systemd:
     name: ppp
     enabled: yes
-    state: started
+    state: restarted
   become: yes
