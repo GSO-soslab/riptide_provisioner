@@ -16,3 +16,27 @@
     state: started
     enabled: yes
   become: yes
+
+- name: Allow ntp requests
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: 123
+    jump: ACCEPT
+  become: yes
+  when: target_type=="beagle"
+
+- name: Allow ntp responses
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    protocol: udp
+    destination_port: 123
+    jump: ACCEPT
+  become: yes
+  when: target_type=="beagle"
+
+- name: Save ip tables
+  ansible.builtin.shell: |
+    sh -c "iptables-save > /etc/iptables.rules"
+  become: yes
+  when: target_type=="beagle"

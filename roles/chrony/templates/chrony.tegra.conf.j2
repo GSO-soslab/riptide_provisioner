@@ -1,11 +1,10 @@
-server {{ ppp_beagle_ip_address }}
+server {{ ppp_beagle_ip_address }} iburst
 server 0.pool.ntp.org iburst
 driftfile /var/lib/chrony/drift
 logdir /var/log/chrony
 log measurements statistics tracking
 keyfile /etc/chrony.keys
-commandkey 24
-local stratum 10
-initstepslew 20 {{ ppp_beagle_ip_address }}
+commandkey 1
+initstepslew 40 {{ ppp_beagle_ip_address }}
 initstepslew 20 0.pool.ntp.org
-allow 192.168.5
+makestep 1 -1
