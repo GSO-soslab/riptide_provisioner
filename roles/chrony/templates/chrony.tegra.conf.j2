@@ -1,4 +1,5 @@
-server {{ ppp_beagle_ip_address }} iburst
+server {{ ppp_beagle_ip_address }} iburst prefer
+server {{ wifi_beagle_ip_address }} iburst
 server 0.pool.ntp.org iburst
 driftfile /var/lib/chrony/drift
 logdir /var/log/chrony
@@ -6,5 +7,6 @@ log measurements statistics tracking
 keyfile /etc/chrony.keys
 commandkey 1
 initstepslew 40 {{ ppp_beagle_ip_address }}
+initstepslew 40 {{ wifi_beagle_ip_address }}
 initstepslew 20 0.pool.ntp.org
 makestep 1 -1

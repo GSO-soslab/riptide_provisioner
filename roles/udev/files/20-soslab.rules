@@ -1,0 +1,2 @@
+SUBSYSTEM=="tty", ATTR{uartclk}!="0", KERNEL=="ttyS1", SYMLINK+="jetson"
+SUBSYSTEM=="tty", ATTR{uartclk}!="0", KERNEL=="ttyS5", SYMLINK+="microstrain"

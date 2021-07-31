@@ -9,6 +9,8 @@
       bionic: melodic
       focal: noetic
 
+    wifi_tegra_ip_address: 192.168.1.10
+    wifi_beagle_ip_address: 192.168.1.213
     ppp_tegra_ip_address: 192.168.5.100
     ppp_beagle_ip_address: 192.168.5.101
 
