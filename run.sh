@@ -1,7 +1,7 @@
 #!/bin/bash
 
 _usage() {
-  echo "$0 <-t|--tegra,-b|--beagle> <--ip=target ip addr> [-i|--interactive][-u|--user][-p|--pass password][-h]"
+  echo "$0 <--nose|--tube|--payload> <--ip=target ip addr> [-i|--interactive][-u|--user][-p|--pass password][-h]"
 }
 
 _readdotenv() {
@@ -25,14 +25,19 @@ _provision() {
     exit 1
   fi
 
-  if [ ${TARGET_TYPE} = "tegra" ] ; then
-    ANSIBLE_USER=$TEGRA_USER
-    ANSIBLE_PASSWORD=$TEGRA_PASSWD
+  if [ ${TARGET_TYPE} = "tube" ] ; then
+    ANSIBLE_USER=$PAYLOAD_USER
+    ANSIBLE_PASSWORD=$PAYLOAD_PASSWD
   fi
 
-  if [ ${TARGET_TYPE} = "beagle" ] ; then
-    ANSIBLE_USER=$BEAGLE_USER
-    ANSIBLE_PASSWORD=$BEAGLE_PASSWD
+  if [ ${TARGET_TYPE} = "payload" ] ; then
+    ANSIBLE_USER=$TUBE_USER
+    ANSIBLE_PASSWORD=$TUBE_PASSWD
+  fi
+
+  if [ ${TARGET_TYPE} = "nose" ] ; then
+    ANSIBLE_USER=$NOSE_USER
+    ANSIBLE_PASSWORD=$NOSE_PASSWD
   fi
 
   ANSIBLE_USER=${ANSIBLE_USER:-${CUSTOM_USER:-ubuntu}}
@@ -41,6 +46,7 @@ _provision() {
   CUSTOM_USER=${CUSTOM_USER:-${ANSIBLE_USER:-ubuntu}}
   CUSTOM_PASSWORD=${CUSTOM_PASSWORD:-${ANSIBLE_PASSWORD:-ubuntu}}
 
+  ANSIBLE_EXTRA_OPTIONS="${ANSIBLE_EXTRA_OPTIONS} in_vehicle_wifi_pass=$IN_VEHICLE_WIFI_PASS "
   ANSIBLE_EXTRA_OPTIONS="${ANSIBLE_EXTRA_OPTIONS} github_token=$GITHUB_TOKEN "
   ANSIBLE_EXTRA_OPTIONS="${ANSIBLE_EXTRA_OPTIONS} target_type=$TARGET_TYPE "
   ANSIBLE_EXTRA_OPTIONS="${ANSIBLE_EXTRA_OPTIONS} ansible_user=$CUSTOM_USER "
@@ -58,11 +64,14 @@ _getopts() {
       --ip=*)
         TARGET_IP="${i#*=}"
         shift ;;
-      -b|--beagle)
-        TARGET_TYPE="beagle"
+      --tube)
+        TARGET_TYPE="tube"
         shift ;;
-      -t|--tegra)
-        TARGET_TYPE="tegra"
+      --payload)
+        TARGET_TYPE="payload"
+        shift ;;
+      --nose)
+        TARGET_TYPE="nose"
         shift ;;
       -u=*|--user=*)
         CUSTOM_USER="${i#*=}"

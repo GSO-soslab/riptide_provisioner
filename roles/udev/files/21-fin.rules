@@ -1,0 +1,1 @@
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", GROUP="dialout", SYMLINK+="xbee", RUN+="/bin/sh -c '/bin/sleep 4; /bin/stty -F /dev/xbee 115200 cs8 -cstopb -parenb; /bin/systemctl --no-block restart serial-getty@xbee.service'"

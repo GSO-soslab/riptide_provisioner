@@ -12,3 +12,34 @@
     chdir: "{{ ansible_env.HOME }}/ros_ws"
     executable: /bin/bash
     creates: "{{ ansible_env.HOME }}/ros_ws/devel/setup.bash"
+
+- name: Check if the source exists
+  stat:
+    path: "{{ ansible_env.HOME }}/ros_ws/src/micro_uuv"
+  register: micro_uuv_ros_sources
+
+- name: Checkout The Code From Github Using Ansible.
+  ansible.builtin.git:
+    repo: 'https://{{ github_token }}@github.com/GSO-soslab/micro_uuv.git'
+    dest: "{{ ansible_env.HOME }}/ros_ws/src/micro_uuv"
+  when: not micro_uuv_ros_sources.stat.exists
+
+
+- name: Check if the source exists
+  stat:
+    path: "{{ ansible_env.HOME }}/ros_ws/src/dvl_a50_ros_driver"
+  register: dvl_a50_ros_sources
+
+- name: Checkout The Code From Github Using Ansible.
+  ansible.builtin.git:
+    repo: 'https://{{ github_token }}@github.com/GSO-soslab/dvl_a50_ros_driver.git'
+    dest: "{{ ansible_env.HOME }}/ros_ws/src/dvl_a50_ros_driver"
+  when: not dvl_a50_ros_sources.stat.exists
+
+- name: Install ros dependencies
+  ansible.builtin.shell: |
+    source /opt/ros/{{ ros_versions[ansible_lsb.codename] }}/setup.bash
+    rosdep install --from-paths src --ignore-src -r -y
+  args:
+    chdir: "{{ ansible_env.HOME }}/ros_ws"
+    executable: /bin/bash

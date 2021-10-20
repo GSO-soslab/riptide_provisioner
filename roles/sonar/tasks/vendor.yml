@@ -1,8 +1,19 @@
 ---
+- name: Check if the source exists
+  stat:
+    path: "{{ ansible_env.HOME }}/soslab_ws/src/swathRT"
+  register: swath_sources
+
+- name: Check if swath_rt exists
+  stat:
+    path: /usr/local/bin/swathRT
+  register: swath_binaries
+
 - name: Checkout The Code From Github Using Ansible.
   ansible.builtin.git:
     repo: 'https://{{ github_token }}@github.com/iter-systems/swathRT.git'
     dest: "{{ ansible_env.HOME }}/soslab_ws/src/swathRT"
+  when: not swath_sources.stat.exists
 
 - name: Install qt5 requirements for sonar
   apt:
@@ -13,12 +24,16 @@
 
 - name: Build sonar vendor packages
   ansible.builtin.shell: |
-    ./build.sh
-    DIR=$(ls | grep swath)
+    cd swathRT
+    rm swath/*.user*
+    mkdir build
+    cd build
+    qmake ../swathRT
+    make -4
     find $DIR -type f -executable -exec mv {} /usr/local/bin/ \;
-    ./clean.sh
   args:
     chdir: "{{ ansible_env.HOME }}/soslab_ws/src/swathRT"
     executable: /bin/bash
     creates: /usr/local/bin/swathRT
   become: yes
+  when: not swath_binaries.stat.exists

@@ -9,32 +9,51 @@
       bionic: melodic
       focal: noetic
 
-    ppp_tegra_ip_address: 192.168.5.100
-    ppp_beagle_ip_address: 192.168.5.101
+
+    wifi_payload_ip_address: 192.168.1.10
+    wifi_tube_ip_address: 192.168.1.1
+    wifi_nose_ip_address: 192.168.1.213
 
   roles:
+    - role: common
+      when: (target_type=="payload") or
+            (target_type=="tube")
+
     - role: soslab
+      when: (target_type=="payload") or
+            (target_type=="tube")
 
     - role: moos
-      when: target_type=="tegra"
+      when: (target_type=="payload") or
+            (target_type=="tube")
 
     - role: ros
       ros_packages:
       - rviz
-      when: target_type=="tegra"
+      when: (target_type=="payload") or
+            (target_type=="tube")
+
+    - role: gps
+      when: (target_type=="payload") or
+            (target_type=="tube")
 
     - role: sonar
-      when: target_type=="tegra"
-
-    - role: riptide_ros_bridge
-      when: target_type=="tegra"
+      when: target_type=="payload"
 
     - role: vnc
-      when: target_type=="tegra"
-
-    - role: ppp
+      when: (target_type=="payload") or
+            (target_type=="tube")
 
     - role: udev
-      when: target_type=="tegra"
+      when: (target_type=="payload") or
+            (target_type=="tube")
+
+    - role: network
+      when: (target_type=="payload") or
+            (target_type=="tube")
+
+    - role: nginx
+      when: target_type=="payload"
+
 
     - role: chrony

@@ -1,0 +1,9 @@
+- name: Install build essentials
+  apt:
+    name:
+    - build-essential
+    - g++
+    - cmake
+    - make
+    - libraspberrypi-bin
+  become: yes

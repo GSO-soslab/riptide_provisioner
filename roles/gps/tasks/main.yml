@@ -1,0 +1,11 @@
+- name: Install gpsd
+  apt:
+    name: gpsd
+  become: yes
+
+- name: Configure GPS daemon
+  ansible.builtin.lineinfile:
+    path: /etc/default/gpsd
+    regexp: '^DEVICES='
+    line: DEVICES="/dev/gps0"
+  become: yes

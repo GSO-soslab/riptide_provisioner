@@ -27,8 +27,8 @@
 
 - name: Copy systemd unit file
   ansible.builtin.copy:
-    src: swath_rt.service
-    dest: /etc/systemd/system/swath_rt.service
+    src: swath.service
+    dest: /etc/systemd/system/swath.service
   become: yes
 
 - name: Setup systemd service
@@ -38,7 +38,7 @@
 
 - name: Setup systemd service
   ansible.builtin.systemd:
-    name: swath_rt
+    name: swath
     enabled: yes
     state: started
   become: yes

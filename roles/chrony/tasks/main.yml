@@ -24,7 +24,7 @@
     destination_port: 123
     jump: ACCEPT
   become: yes
-  when: target_type=="beagle"
+  when: target_type=="nose"
 
 - name: Allow ntp responses
   ansible.builtin.iptables:
@@ -33,10 +33,10 @@
     destination_port: 123
     jump: ACCEPT
   become: yes
-  when: target_type=="beagle"
+  when: target_type=="nose"
 
 - name: Save ip tables
   ansible.builtin.shell: |
     sh -c "iptables-save > /etc/iptables.rules"
   become: yes
-  when: target_type=="beagle"
+  when: target_type=="nose"

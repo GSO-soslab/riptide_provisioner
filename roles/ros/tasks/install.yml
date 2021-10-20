@@ -15,13 +15,28 @@
 - name: install dependencies for building software
   apt:
     name:
+    - python3-rosdep
+    - python3-rosinstall
+    - python3-rosinstall-generator
+    - python3-wstool
+    - build-essential
+    - "ros-{{ ros_versions[ansible_lsb.codename] }}-ros-base"
+  become: yes
+  when: ros_versions[ansible_lsb.codename]=="noetic"
+
+- name: install dependencies for building software
+  apt:
+    name:
     - python-rosdep
     - python-rosinstall
     - python-rosinstall-generator
     - python-wstool
     - build-essential
     - "ros-{{ ros_versions[ansible_lsb.codename] }}-ros-base"
+    - "ros-{{ ros_versions[ansible_lsb.codename] }}-fkie-master-sync"
+    - "ros-{{ ros_versions[ansible_lsb.codename] }}-fkie-master-discovery"
   become: yes
+  when: ros_versions[ansible_lsb.codename]!="noetic"
 
 - name: install ros packages
   apt:
@@ -49,4 +64,5 @@
     source /opt/ros/{{ ros_versions[ansible_lsb.codename] }}/setup.bash
     rosdep update
   args:
+    creates: "{{ ansible_env.HOME }}/.ros/rosdep/sources.cache"
     executable: /bin/bash

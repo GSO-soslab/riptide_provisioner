@@ -1,0 +1,10 @@
+driftfile /var/lib/chrony/drift
+server 0.pool.ntp.org iburst
+server 1.pool.ntp.org iburst
+commandkey 1
+keyfile /etc/chrony.keys
+initstepslew 40 0.pool.ntp.org
+initstepslew 40 1.pool.ntp.org
+local stratum 8
+manual
+allow 192.168

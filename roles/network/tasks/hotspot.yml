@@ -1,0 +1,51 @@
+---
+- name: Install hostapd and dnsmasq
+  apt:
+    name:
+      - hostapd
+      - dnsmasq
+  become: yes
+
+- name: Copy config for hostapd
+  ansible.builtin.template:
+    src: "hostapd.conf.j2"
+    dest: /etc/hostapd/hostapd.conf
+  become: yes
+
+- name: Copy config dnsmasq
+  ansible.builtin.template:
+    src: "dnsmasq.conf.j2"
+    dest: /etc/dnsmasq.conf
+  become: yes
+
+- name: Set config in default
+  ansible.builtin.lineinfile:
+    path: /etc/default/hostapd
+    regexp: '^DAEMON_CONF='
+    line: DAEMON_CONF="/etc/hostapd/hostapd.conf"
+  become: yes
+
+- name: Add default wifi to unmanaged list in Network Manager
+  ansible.builtin.lineinfile:
+    path: /lib/NetworkManager/conf.d/10-globally-managed-devices.conf
+    regexp: '^unmanaged-devices='
+    line: unmanaged-devices=interface-name:wlan0
+  become: yes
+
+- name: Restart network manager
+  ansible.builtin.systemd:
+    name: NetworkManager
+    state: restarted
+  become: yes
+
+- name: Pause for 10 seconds for NetworkManager to start up
+  pause:
+    seconds: 10
+
+- name: Start the service
+  ansible.builtin.systemd:
+    name: hostapd
+    enabled: yes
+    state: started
+    masked: no
+  become: yes

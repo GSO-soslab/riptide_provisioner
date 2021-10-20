@@ -1,0 +1,12 @@
+server {{ wifi_nose_ip_address }} iburst
+server 0.pool.ntp.org iburst maxsources 4
+server 1.pool.ntp.org iburst maxsources 4
+driftfile /var/lib/chrony/drift
+logdir /var/log/chrony
+log measurements statistics tracking
+keyfile /etc/chrony.keys
+commandkey 1
+initstepslew 40 {{ wifi_nose_ip_address }}
+initstepslew 40 0.pool.ntp.org
+initstepslew 40 0.pool.ntp.org
+makestep 1 -1

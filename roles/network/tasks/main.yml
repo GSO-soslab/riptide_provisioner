@@ -1,0 +1,10 @@
+---
+- name: Install network related programs
+  apt:
+    name:
+      - network-manager
+      - nmap
+  become: yes
+
+- include_task: hotspot.yml
+  when: target_type=="tube"

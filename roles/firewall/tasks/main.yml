@@ -1,0 +1,26 @@
+- name: Allow connections on multiple ports
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: udp
+    destination_ports:
+      - "80"
+      - "443"
+      - "22"
+      - "123"
+      - "8080"
+      - "9000"
+    jump: ACCEPT
+
+- name: Install iptables persistent
+  apt:
+  name:
+    - iptables-persistent
+  update_cache: yes
+  state: present
+
+- name: Build sonar vendor packages
+  ansible.builtin.shell: |
+    iptables-save > /etc/iptables/rules.v4
+  args:
+    executable: /bin/bash
+  become: yes

@@ -4,6 +4,21 @@
       src: 20-xbee.rules
       dest: /etc/udev/rules.d/20-xbee.rules
   become: yes
+  when: target_type=="payload"
+
+- name: Copy udev rules
+  ansible.builtin.copy:
+      src: 20-soslab.rules
+      dest: /etc/udev/rules.d/20-soslab.rules
+  become: yes
+  when: target_type=="tube"
+
+- name: Copy udev rules
+  ansible.builtin.copy:
+      src: 20-soslab.rules
+      dest: /etc/udev/rules.d/20-soslab.rules
+  become: yes
+  when: target_type=="nose"
 
 - name: "Reload udev rules"
   shell: udevadm trigger

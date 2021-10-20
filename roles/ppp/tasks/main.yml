@@ -6,18 +6,18 @@
     - ppp
   become: yes
 
-- name: Create PPP confguration file for tegra
+- name: Create PPP confguration file for payload
   ansible.builtin.template:
     src: "ppp.{{ target_type }}.options.j2"
-    dest: "/etc/ppp/options.{{ ppp_tegra_serial_interface }}"
-  when: target_type == "tegra"
+    dest: "/etc/ppp/options.{{ ppp_payload_serial_interface }}"
+  when: target_type == "payload"
   become: yes
 
-- name: Create PPP confguration file for beagle
+- name: Create PPP confguration file for tube
   ansible.builtin.template:
     src: "ppp.{{ target_type }}.options.j2"
-    dest: "/etc/ppp/options.{{ ppp_beagle_serial_interface }}"
-  when: target_type == "beagle"
+    dest: "/etc/ppp/options.{{ ppp_tube_serial_interface }}"
+  when: target_type == "tube"
   become: yes
 
 - name: Create PPP systemd file
