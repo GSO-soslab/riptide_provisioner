@@ -9,11 +9,9 @@
       bionic: melodic
       focal: noetic
 
-
-    wifi_payload_ip_address: 192.168.1.10
-    wifi_tube_ip_address: 192.168.1.1
-    wifi_nose_ip_address: 192.168.1.213
-
+      wifi_payload_ip_address: 192.168.1.10
+      wifi_tube_ip_address: 192.168.1.1
+      wifi_nose_ip_address: 192.168.1.213
   roles:
     - role: common
       when: (target_type=="payload") or
