@@ -1,0 +1,73 @@
+---
+- name: Allow related and established connections
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+  become: yes
+
+- name: Allow connections from loopback interface
+  ansible.builtin.iptables:
+    chain: INPUT
+    jump: ACCEPT
+    in_interface: lo
+  become: yes
+
+- name: Allow connections from wlan0 interface
+  ansible.builtin.iptables:
+    chain: INPUT
+    jump: ACCEPT
+    in_interface: wlan0
+  become: yes
+
+- name: Allow connections from ppp0 interface
+  ansible.builtin.iptables:
+    chain: INPUT
+    jump: ACCEPT
+    in_interface: ppp0
+  become: yes
+
+- name: Forward requested connections from ppp0 to wlan0
+  ansible.builtin.iptables:
+    chain: FORWARD
+    jump: ACCEPT
+    in_interface: ppp0
+    out_interface: wlan0
+  become: yes
+
+- name: Forward requested connections from wlan0 to ppp0
+  ansible.builtin.iptables:
+    chain: FORWARD
+    jump: ACCEPT
+    in_interface: wlan0
+    out_interface: ppp0
+  become: yes
+
+- name: Setup postrouting for ppp0
+  ansible.builtin.iptables:
+    chain: POSTROUTING
+    table: nat
+    in_interface: ppp0
+    jump: MASQUERADE
+  become: yes
+
+- name: Setup postrouting for wlan0
+  ansible.builtin.iptables:
+    chain: POSTROUTING
+    table: nat
+    in_interface: wlan0
+    jump: MASQUERADE
+  become: yes
+
+- name: Install iptables-persistent
+  apt:
+    name:
+    - iptables-persistent
+    update_cache: yes
+    state: present
+  become: yes
+
+
+- name: save iptables v4 rules
+  shell: iptables-save > /etc/iptables/rules.v4
+  become: yes

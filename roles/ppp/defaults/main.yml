@@ -1,21 +1,12 @@
 ---
-ppp_payload_ip_address: 192.168.5.100
-ppp_tube_ip_address: 192.168.5.101
-# Orbitty carrier
-# UART0 TX - Pin: 3, UART0 RX - Pin: 4.
-# Voltage level 3v3
-# linux serial file: /dev/ttyS0
-ppp_payload_serial_interface: ttyS0
-
-# Nose board
-# CPU_RS232_RX1, Pin 7, CPU_RS232_TX1, Pin 6
-# Voltage level 12v
-# linux serial file: /dev/ttyO1
-ppp_tube_serial_interface: ttyO1
+ppp_payload_ip_address: 192.168.2.10
+ppp_tube_ip_address: 192.168.2.1
+ppp_payload_serial_interface: ftdi
+ppp_tube_serial_interface: ftdi
 
 # Possible values are
 # - 115200
 # - 230400
 # - 460800
 # - 921600
-ppp_baudrate: 460800
+ppp_baudrate: 921600
